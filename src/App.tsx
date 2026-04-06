@@ -206,10 +206,6 @@ export default function App() {
               {/* Logos */}
               <motion.div variants={itemVariants} className="flex justify-center items-center gap-4 sm:gap-6 mb-8">
                 <img src="https://ulagat-krg.vercel.app/ulagat%20(1).svg" alt="Ulagat" className="h-8 sm:h-10 object-contain" />
-                <div className="w-px h-8 bg-gray-300" />
-                <img src="https://qasymkitap.kz/static/imgs/logo.png" alt="Qasymkitap" className="h-6 sm:h-8 object-contain brightness-0 opacity-80" />
-                <div className="w-px h-8 bg-gray-300" />
-                <img src="https://storage.emenu.delivery/company/kjyuelf8p5yx5m0qkjh1wm68eais5io3.jpg" alt="Turan-El" className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl object-cover shadow-sm" />
               </motion.div>
 
               {/* Header */}
@@ -298,12 +294,15 @@ export default function App() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-4">
-                  <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center text-green-600 shrink-0">
-                    <MapPin className="w-6 h-6" />
+                  <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="https://storage.emenu.delivery/company/kjyuelf8p5yx5m0qkjh1wm68eais5io3.jpg" alt="Turan-El" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 font-medium mb-0.5">Мекен-жайы</p>
-                    <p className="text-base text-gray-900 font-semibold">Орбита 1 шағын ауданы, ст32/1</p>
+                    <p className="text-base text-gray-900 font-semibold flex items-center gap-2">
+                       Орбита 1 шағын ауданы, ст32/1
+                       <MapPin className="w-4 h-4 text-green-600" />
+                    </p>
                   </div>
                 </div>
               </motion.div>
