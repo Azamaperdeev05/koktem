@@ -8,20 +8,21 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, Clock, MapPin, Heart, Navigation, Share2, Sparkles, Quote, Volume2, VolumeX } from 'lucide-react';
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
 };
 
 const FloatingHearts = () => {
   const [hearts, setHearts] = useState<{id: number, left: number, delay: number, duration: number, size: number}[]>([]);
 
   useEffect(() => {
-    const newHearts = Array.from({ length: 15 }).map((_, i) => ({
+    // Reduced number of hearts for better performance
+    const newHearts = Array.from({ length: 8 }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
       delay: Math.random() * 5,
-      duration: Math.random() * 10 + 10,
-      size: Math.random() * 16 + 16
+      duration: Math.random() * 8 + 12,
+      size: Math.random() * 12 + 12
     }));
     setHearts(newHearts);
   }, []);
@@ -31,10 +32,11 @@ const FloatingHearts = () => {
       {hearts.map((heart) => (
         <motion.div
           key={heart.id}
-          className="absolute text-pink-400/20"
+          className="absolute text-pink-400/10"
           initial={{ y: '110vh', x: `${heart.left}vw`, rotate: 0 }}
-          animate={{ y: '-10vh', x: `${heart.left + (Math.random() * 20 - 10)}vw`, rotate: 360 }}
+          animate={{ y: '-10vh', rotate: 180 }}
           transition={{ duration: heart.duration, repeat: Infinity, ease: "linear", delay: heart.delay }}
+          style={{ willChange: 'transform' }}
         >
           <Heart fill="currentColor" style={{ width: heart.size, height: heart.size }} />
         </motion.div>
@@ -128,15 +130,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-[#1d1d1f] font-sans selection:bg-pink-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
-      {/* Background Video */}
+    <div className="min-h-screen text-[#1d1d1f] font-sans selection:bg-pink-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden bg-white">
+      {/* Background Video Optimized */}
       <video 
         ref={videoRef}
         autoPlay 
         loop 
         muted={isMuted} 
         playsInline 
-        className="fixed inset-0 w-full h-full object-cover z-0 opacity-60"
+        className="fixed inset-0 w-full h-full object-cover z-0 opacity-40 pointer-events-none"
+        style={{ transform: 'translate3d(0,0,0)', willChange: 'opacity' }}
       >
         <source src="/bg.mp4" type="video/mp4" />
       </video>
@@ -149,31 +152,28 @@ export default function App() {
       {/* Music Toggle Button */}
       <button 
         onClick={toggleMute}
-        className="fixed top-6 right-6 z-50 p-3 bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-pink-100 text-pink-600 hover:scale-110 transition-transform active:scale-95"
+        className="fixed top-6 right-6 z-50 p-3 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-pink-100 text-pink-600 hover:scale-105 transition-transform active:scale-95"
       >
         {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
       </button>
 
       {/* Background Overlay */}
-      <div className="fixed inset-0 bg-white/40 backdrop-blur-[2px] z-0" />
+      <div className="fixed inset-0 bg-white/30 backdrop-blur-[1px] z-0 pointer-events-none" />
 
-      {/* Background Blobs */}
-      <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center">
-        <motion.div 
-          animate={{ rotate: 360, scale: [1, 1.1, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] bg-pink-200/40 rounded-full blur-3xl mix-blend-multiply opacity-60"
-          style={{ top: '0%', left: '10%' }}
+      {/* Background Blobs Optimized (Static or very slow animations) */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] bg-pink-100/30 rounded-full blur-[100px] mix-blend-multiply opacity-50"
+          style={{ top: '-10%', left: '0%' }}
         />
-        <motion.div 
-          animate={{ rotate: -360, scale: [1, 1.2, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[70vw] h-[70vw] max-w-[500px] max-h-[500px] bg-blue-200/40 rounded-full blur-3xl mix-blend-multiply opacity-60"
-          style={{ bottom: '0%', right: '10%' }}
+        <div 
+          className="absolute w-[70vw] h-[70vw] max-w-[500px] max-h-[500px] bg-blue-100/30 rounded-full blur-[100px] mix-blend-multiply opacity-50"
+          style={{ bottom: '-10%', right: '0%' }}
         />
       </div>
 
       <FloatingHearts />
+
 
       <AnimatePresence mode="wait">
         {!isOpened ? (
