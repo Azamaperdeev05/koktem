@@ -1,0 +1,101 @@
+- generic [ref=e3]:
+  - generic:
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+    - generic:
+      - img
+  - main [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - img [ref=e10]
+          - text: ULAGAT • QASYMKITAP • TÙRAN-EL
+        - generic [ref=e13]:
+          - img [ref=e14]
+          - text: Хат ашылғанда видео мен әуен басталады
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: Поэзиялық кеш
+        - heading "Көктемге хат" [level=1] [ref=e18]
+        - paragraph [ref=e19]: Құрметті кеш қонағы, сізді 11 сәуір күні Қозы Көрпеш пен Баян Сұлу рухына арналған әсерлі поэзия кешіне шын жүректен шақырамыз.
+        - generic [ref=e20]:
+          - img [ref=e21]
+          - paragraph [ref=e24]:
+            - text: "\"Ғашықтың тілі — тілсіз тіл,"
+            - text: Көзбен көр де, ішпен біл."
+          - paragraph [ref=e25]: Абай Құнанбайұлы
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Жүректерді жырмен тербетіп, көктемнің нәзік әуенін бірге сезінетін кеште қауышайық.
+          - paragraph [ref=e28]: Сахнада поэзия, фонда естелікке айналар атмосфера, ал сізге арналған шақырту осы хаттың ішінде.
+        - generic [ref=e29]:
+          - article [ref=e30]:
+            - img [ref=e32]
+            - paragraph [ref=e34]: Күні
+            - paragraph [ref=e35]: 11 сәуір 2026 жыл
+          - article [ref=e36]:
+            - img [ref=e38]
+            - paragraph [ref=e41]: Уақыты
+            - paragraph [ref=e42]: 17:00
+          - article [ref=e43]:
+            - img [ref=e45]
+            - paragraph [ref=e48]: Мекен-жайы
+            - paragraph [ref=e49]: QASYMKITAP, TÙRAN-EL мейрамханасы
+        - region "Кері санақ" [ref=e50]:
+          - paragraph [ref=e51]: Кеш басталуына қалды
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]: "05"
+              - generic [ref=e55]: Күн
+            - generic [ref=e56]:
+              - generic [ref=e57]: "02"
+              - generic [ref=e58]: Сағат
+            - generic [ref=e59]:
+              - generic [ref=e60]: "29"
+              - generic [ref=e61]: Минут
+            - generic [ref=e62]:
+              - generic [ref=e63]: "25"
+              - generic [ref=e64]: Секунд
+        - generic [ref=e65]:
+          - link "Картадан ашу" [ref=e66] [cursor=pointer]:
+            - /url: https://go.2gis.com/caDZQ
+            - img [ref=e67]
+            - text: Картадан ашу
+          - button "Шақыртуды бөлісу" [ref=e69]:
+            - img [ref=e70]
+            - text: Шақыртуды бөлісу
+  - generic [ref=e77]:
+    - button "Шақыртуды ашу" [ref=e78] [cursor=pointer]:
+      - generic [ref=e79]:
+        - generic [ref=e82]:
+          - generic [ref=e83]: Поэзиялық кеш
+          - generic [ref=e84]: Көктемге хат
+          - generic [ref=e85]: 11 сәуір • 17:00
+        - generic [ref=e88]:
+          - img [ref=e89]
+          - generic [ref=e91]: Аш
+    - generic [ref=e92]:
+      - strong [ref=e93]: Мені аш
+      - generic [ref=e94]: Шақырту хаттың ішінде жасырылған
