@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Calendar, Clock, MapPin, Heart, Navigation, Share2, Sparkles, Quote } from 'lucide-react';
+import { Calendar, Clock, MapPin, Heart, Navigation, Share2, Sparkles, Quote, Volume2, VolumeX } from 'lucide-react';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -45,9 +45,27 @@ const FloatingHearts = () => {
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        videoRef.current?.pause();
+        audioRef.current?.pause();
+      } else if (isOpened) {
+        videoRef.current?.play().catch(() => {});
+        if (!isMuted) {
+          audioRef.current?.play().catch(() => {});
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [isOpened, isMuted]);
 
   useEffect(() => {
     const eventDate = new Date('2026-04-11T17:00:00').getTime();
@@ -71,11 +89,27 @@ export default function App() {
   const handleOpen = () => {
     setIsOpened(true);
     if (videoRef.current) {
-      videoRef.current.muted = false;
+      videoRef.current.muted = isMuted;
       videoRef.current.play().catch(() => {});
     }
-    if (audioRef.current) {
+    if (audioRef.current && !isMuted) {
       audioRef.current.play().catch(() => {});
+    }
+  };
+
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newMuted = !isMuted;
+    setIsMuted(newMuted);
+    if (audioRef.current) {
+      if (newMuted) {
+        audioRef.current.pause();
+      } else if (isOpened) {
+        audioRef.current.play().catch(() => {});
+      }
+    }
+    if (videoRef.current) {
+      videoRef.current.muted = newMuted;
     }
   };
 
@@ -100,7 +134,7 @@ export default function App() {
         ref={videoRef}
         autoPlay 
         loop 
-        muted 
+        muted={isMuted} 
         playsInline 
         className="fixed inset-0 w-full h-full object-cover z-0 opacity-60"
       >
@@ -108,9 +142,17 @@ export default function App() {
       </video>
 
       {/* Fallback Romantic Audio */}
-      <audio ref={audioRef} loop>
+      <audio ref={audioRef} loop muted={isMuted}>
         <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-piano-and-strings-575.mp3" type="audio/mpeg" />
       </audio>
+
+      {/* Music Toggle Button */}
+      <button 
+        onClick={toggleMute}
+        className="fixed top-6 right-6 z-50 p-3 bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-pink-100 text-pink-600 hover:scale-110 transition-transform active:scale-95"
+      >
+        {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+      </button>
 
       {/* Background Overlay */}
       <div className="fixed inset-0 bg-white/40 backdrop-blur-[2px] z-0" />
@@ -166,15 +208,6 @@ export default function App() {
                   </div>
                 </div>
               </div>
-              
-              <motion.div 
-                className="mt-8 bg-white/90 backdrop-blur-md px-8 py-3 rounded-full text-pink-600 font-semibold shadow-lg border border-pink-100/50 flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Sparkles className="w-5 h-5" />
-                Мені ашшы...
-              </motion.div>
             </motion.div>
           </motion.div>
         ) : (
@@ -294,7 +327,7 @@ export default function App() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 font-medium mb-0.5">Мекен-жайы</p>
-                    <p className="text-base text-gray-900 font-semibold">QASYMKITAP, TÙRAN-EL мейрамханасы</p>
+                    <p className="text-base text-gray-900 font-semibold">Орбита 1 шағын ауданы, ст32/1</p>
                   </div>
                 </div>
               </motion.div>
@@ -323,5 +356,6 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+
   );
 }
