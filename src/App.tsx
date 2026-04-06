@@ -50,19 +50,14 @@ export default function App() {
   const [isMuted, setIsMuted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const audioRef = useRef<HTMLAudioElement>(null);
-  const ytIframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      const playerMessage = document.hidden ? '{"event":"command","func":"pauseVideo","args":""}' : '{"event":"command","func":"playVideo","args":""}';
-      
       if (document.hidden) {
         audioRef.current?.pause();
       } else if (isOpened && !isMuted) {
         audioRef.current?.play().catch(() => {});
       }
-
-      ytIframeRef.current?.contentWindow?.postMessage(playerMessage, '*');
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -93,8 +88,6 @@ export default function App() {
     if (audioRef.current && !isMuted) {
       audioRef.current.play().catch(() => {});
     }
-    // Attempt to play YouTube video on open if it was somehow paused
-    ytIframeRef.current?.contentWindow?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
   };
 
   const toggleMute = (e: React.MouseEvent) => {
@@ -104,10 +97,8 @@ export default function App() {
     
     if (newMuted) {
       audioRef.current?.pause();
-      ytIframeRef.current?.contentWindow?.postMessage('{"event":"command","func":"mute","args":""}', '*');
     } else {
       if (isOpened) audioRef.current?.play().catch(() => {});
-      ytIframeRef.current?.contentWindow?.postMessage('{"event":"command","func":"unMute","args":""}', '*');
     }
   };
 
@@ -127,20 +118,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen text-[#1d1d1f] font-sans selection:bg-pink-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden bg-white">
-      {/* Background YouTube Video Optimized */}
-      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none opacity-40">
-        <iframe
-          ref={ytIframeRef}
-          className="absolute top-1/2 left-1/2 w-[110vw] h-[110vh] -translate-x-1/2 -translate-y-1/2 object-cover scale-[1.3]"
-          src="https://www.youtube.com/embed/7aW2sT-Nalo?autoplay=1&mute=1&controls=0&loop=1&playlist=7aW2sT-Nalo&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1"
-          allow="autoplay; encrypted-media"
-          frameBorder="0"
-        ></iframe>
-      </div>
-
-      {/* Fallback Romantic Audio */}
+      {/* Fallback Romantic Audio - Updated to local 123.mp3 */}
       <audio ref={audioRef} loop muted={isMuted}>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-piano-and-strings-575.mp3" type="audio/mpeg" />
+        <source src="/123.mp3" type="audio/mpeg" />
       </audio>
 
       {/* Music Toggle Button */}
@@ -151,7 +131,7 @@ export default function App() {
         {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
       </button>
 
-      {/* Background Overlay to prevent interfaction with YT and soften visuals */}
+      {/* Background Overlay */}
       <div className="fixed inset-0 bg-white/30 backdrop-blur-[1px] z-0 pointer-events-none" />
 
       {/* Background Blobs Optimized */}
@@ -167,6 +147,7 @@ export default function App() {
       </div>
 
       <FloatingHearts />
+
 
 
 
